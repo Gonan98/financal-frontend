@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FinancalApp from './FinancalApp';
+import App from './App';
+
+import 'bootswatch/dist/flatly/bootstrap.min.css';
 
 ReactDOM.render(
-  <FinancalApp />,
+  <App />,
   document.getElementById('root')
 );
