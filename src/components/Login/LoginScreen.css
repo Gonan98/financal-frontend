@@ -1,14 +1,3 @@
-.contenedor {
-    margin: 0;
-    padding: 0;
-    border: 3px solid gray;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
+.card {
+    width: 20rem;
 }
-
-/*.container {
-    width: 25%;
-    height: 50%;
-}*/

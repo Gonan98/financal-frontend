@@ -1,7 +1,20 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import UserContext from '../../context/UserContext';
+
+import NormalNav from './NormalNav';
+import LoggedNav from './LoggedNav';
 
 export default function Navbar() {
+
+    const { user, logged, setLogged, setUser } = useContext(UserContext);
+
+    const signOut = () => {
+        localStorage.removeItem('bearer-token');
+        setLogged(false);
+        setUser({});
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid px-4">
@@ -10,16 +23,9 @@ export default function Navbar() {
                     <span className="navbar-toggler-icon" />
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/enunciado">Enunciado</Link>
-                        </li>
-                    </ul>
-                    <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <Link className="btn btn-primary" to="/signin">Iniciar Sesion</Link>
-                        </li>
-                    </ul>
+                    {
+                        !logged ? <NormalNav /> : <LoggedNav businessName={user.business_name} handleSignOut={signOut} />
+                    }
                 </div>
             </div>
         </nav>
