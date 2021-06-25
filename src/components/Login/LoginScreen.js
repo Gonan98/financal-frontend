@@ -3,8 +3,6 @@ import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
 import UserContext from '../../context/UserContext';
 
-import './LoginScreen.css';
-
 export default function LoginScreen({ history }) {
 
     const { setLogged } = useContext(UserContext);
@@ -16,7 +14,8 @@ export default function LoginScreen({ history }) {
         axios.post('/api/v1/auth/signin', {
             email,
             password
-        }, { headers: { authorization: localStorage.getItem('bearer-token') } }).then(res => {
+        }).then(res => {
+            axios.defaults.headers.common['authorization'] = res.data.token;
             localStorage.setItem('bearer-token', res.data.token);
             setLogged(true);
             history.replace('/');
@@ -24,7 +23,7 @@ export default function LoginScreen({ history }) {
     };
 
     return (
-        <div className="card mx-auto">
+        <div className="card mx-auto" style={{ width: '20rem' }}>
             <div className="card-body">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">

@@ -6,9 +6,12 @@ import LoginScreen from './components/Login/LoginScreen';
 import RegisterScreen from './components/Register/RegisterScreen';
 import StatementScreen from './components/Statement/StatementScreen';
 import UserContext from './context/UserContext';
-import PortfolioScreen from './components/Portfolio/PortfolioScreen';
 import axios from 'axios';
 import CustomerScreen from './components/Customer/CustomerScreen';
+import PortfolioForm from './components/Portfolio/PortfolioForm';
+import PortfolioScreen from './components/Portfolio/PortfolioScreen';
+import LetterScreen from './components/Letter/LetterScreen';
+import SummaryScreen from './components/Summary/SummaryScreen';
 
 const App = () => {
 
@@ -18,18 +21,20 @@ const App = () => {
     useEffect(() => {
         const bearerToken = localStorage.getItem('bearer-token');
         if (bearerToken) {
-            axios.get('/api/v1/auth/profile', { headers: { authorization: bearerToken } })
+            axios.defaults.headers.common['authorization'] = bearerToken;
+            axios.get('/api/v1/auth/profile')
                 .then(res => {
                     setUser(res.data.data);
                     setLogged(true);
-                }).catch(console.error);
+                }).catch(err => {
+                    localStorage.removeItem('bearer-token');
+                });
         }
     }, []);
 
     useEffect(() => {
         if (logged) {
-            const bearerToken = localStorage.getItem('bearer-token');
-            axios.get('/api/v1/auth/profile', { headers: { authorization: bearerToken } })
+            axios.get('/api/v1/auth/profile')
                 .then(res => {
                     setUser(res.data.data);
                 }).catch(err => {
@@ -46,7 +51,10 @@ const App = () => {
                     <Route path='/enunciado' component={StatementScreen} />
                     <Route path='/signin' component={LoginScreen} />
                     <Route path='/signup' component={RegisterScreen} />
-                    <Route path='/carteras' component={PortfolioScreen} />
+                    <Route exact path='/carteras/cliente/:id' component={PortfolioScreen} />
+                    <Route exact path='/carteras/form' component={PortfolioForm} />
+                    <Route exact path='/letras/cartera/:carteraId' component={LetterScreen} />
+                    <Route exact path='/resumen/cartera/:carteraId' component={SummaryScreen} />
                     {
                         !logged ? <Route path='/' component={HomeScreen} /> : <Route path='/' component={CustomerScreen} />
                     }

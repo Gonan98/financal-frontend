@@ -1,8 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
-import './RegisterScreen.css'
-
 export default function RegisterScreen({ history }) {
 
     const [ruc, setRuc] = useState('');
@@ -13,19 +11,18 @@ export default function RegisterScreen({ history }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const bearerToken = localStorage.getItem('bearer-token');
         axios.post('/api/v1/auth/signup', {
             ruc,
             business_name: businessName,
             email,
             password
-        }, { headers: { authorization: bearerToken } }).then(res => {
+        }).then(res => {
             history.replace('/signin');
         }).catch(console.error);
     };
 
     return (
-        <div className="card mx-auto">
+        <div className="card mx-auto" style={{ width: '20rem' }}>
             <div className="card-body">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">

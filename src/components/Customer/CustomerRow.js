@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 export default function CustomerRow({
     index,
@@ -19,6 +20,9 @@ export default function CustomerRow({
             <td>{lastname}</td>
             <td>{phone}</td>
             <td>{address}</td>
+            <td>
+                <Link to={`/carteras/cliente/${_id}`}>Ver</Link>
+            </td>
         </tr>
     );
 }

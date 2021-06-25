@@ -5,15 +5,15 @@ import CustomerTable from './CustomerTable';
 
 export default function CustomerScreen() {
 
-    const [load, setLoad] = useState(true);
+    const [refresh, setRefresh] = useState(false);
 
     return (
         <div className="row">
             <div className="col-md-4">
-                <CustomerForm setLoad={setLoad} />
+                <CustomerForm setLoad={setRefresh} />
             </div>
             <div className="col-md-8">
-                <CustomerTable load={load} setLoad={setLoad} />
+                <CustomerTable load={refresh} setLoad={setRefresh} />
             </div>
         </div>
     )

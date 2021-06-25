@@ -4,12 +4,14 @@ import UserContext from '../../context/UserContext';
 
 import NormalNav from './NormalNav';
 import LoggedNav from './LoggedNav';
+import axios from 'axios';
 
 export default function Navbar() {
 
     const { user, logged, setLogged, setUser } = useContext(UserContext);
 
     const signOut = () => {
+        delete axios.defaults.headers.common['authorization'];
         localStorage.removeItem('bearer-token');
         setLogged(false);
         setUser({});

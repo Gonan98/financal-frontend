@@ -9,7 +9,7 @@ export default function LoggedNav({ businessName, handleSignOut }) {
                     <Link className="nav-link" to="/clientes">Clientes</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/carteras">Carteras</Link>
+                    <Link className="nav-link" to="/carteras/form">Registrar Cartera</Link>
                 </li>
             </ul>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">

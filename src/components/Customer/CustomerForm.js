@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-export default function CustomerForm({ setLoad, history }) {
+export default function CustomerForm({ setRefresh, history }) {
+
     const [ruc, setRuc] = useState('');
     const [businessName, setBusinessName] = useState('');
     const [firstname, setFirstname] = useState('');
@@ -19,10 +20,10 @@ export default function CustomerForm({ setLoad, history }) {
                 lastname,
                 phone,
                 address,
-            }, { headers: { authorization: localStorage.getItem('bearer-token') } })
+            })
             .then((data) => {
                 resetForm();
-                setLoad(true);
+                setRefresh(true);
             })
             .catch(console.error);
     };
@@ -37,7 +38,7 @@ export default function CustomerForm({ setLoad, history }) {
     }
 
     return (
-        <div className="card mx-auto">
+        <div className="card mx-auto" style={{ width: '20rem' }}>
             <div className="card-body">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
