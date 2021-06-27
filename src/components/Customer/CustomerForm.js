@@ -1,41 +1,40 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useForm } from "../../hooks/useForm";
+import { addCustomerValidation } from "../../validations/validations";
+import InvalidFeedback from "../ValidationFeedback/InvalidFeedback";
 
-export default function CustomerForm({ setRefresh, history }) {
+export default function CustomerForm({ setRefresh }) {
 
-    const [ruc, setRuc] = useState('');
-    const [businessName, setBusinessName] = useState('');
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [phone, setPhone] = useState('');
-    const [address, setAddress] = useState('');
+    const [formValues, handleInputChange, resetForm] = useForm({
+        ruc: '',
+        business_name: '',
+        firstname: '',
+        lastname: '',
+        phone: '',
+        address: ''
+    });
+
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+        setErrors(addCustomerValidation(formValues));
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios
-            .post('/api/v1/customers', {
-                ruc,
-                business_name: businessName,
-                firstname,
-                lastname,
-                phone,
-                address,
-            })
-            .then((data) => {
-                resetForm();
-                setRefresh(true);
-            })
-            .catch(console.error);
+        if (Object.keys(errors).length === 0) {
+            axios
+                .post('/api/v1/customers', formValues)
+                .then(res => {
+                    resetForm();
+                    setRefresh(true);
+                })
+                .catch(err => {
+                    alert(err.response.data.message);
+                });
+        }
     };
-
-    const resetForm = () => {
-        setRuc('');
-        setBusinessName('');
-        setFirstname('');
-        setLastname('');
-        setPhone('');
-        setAddress('');
-    }
 
     return (
         <div className="card mx-auto" style={{ width: '20rem' }}>
@@ -48,11 +47,12 @@ export default function CustomerForm({ setRefresh, history }) {
                         <input
                             type="text"
                             id="customerRuc"
-                            className="form-control"
-                            required
-                            value={ruc}
-                            onChange={(e) => setRuc(e.target.value)}
+                            className={!errors.ruc ? 'form-control' : 'form-control is-invalid'}
+                            name="ruc"
+                            value={formValues.ruc}
+                            onChange={handleInputChange}
                         />
+                        {errors.ruc && <InvalidFeedback message={errors.ruc} />}
                     </div>
                     <div className="mb-3">
                         <label htmlFor="customerBusinessName" className="form-label">
@@ -61,11 +61,12 @@ export default function CustomerForm({ setRefresh, history }) {
                         <input
                             type="text"
                             id="customerBusinessName"
-                            className="form-control"
-                            required
-                            value={businessName}
-                            onChange={(e) => setBusinessName(e.target.value)}
+                            className={!errors.business_name ? 'form-control' : 'form-control is-invalid'}
+                            name="business_name"
+                            value={formValues.business_name}
+                            onChange={handleInputChange}
                         />
+                        {errors.business_name && <InvalidFeedback message={errors.business_name} />}
                     </div>
                     <div className="mb-3">
                         <label htmlFor="customerFirstName" className="form-label">
@@ -74,11 +75,12 @@ export default function CustomerForm({ setRefresh, history }) {
                         <input
                             type="text"
                             id="customerFirstName"
-                            className="form-control"
-                            required
-                            value={firstname}
-                            onChange={(e) => setFirstname(e.target.value)}
+                            className={!errors.firstname ? 'form-control' : 'form-control is-invalid'}
+                            name="firstname"
+                            value={formValues.firstname}
+                            onChange={handleInputChange}
                         />
+                        {errors.firstname && <InvalidFeedback message={errors.firstname} />}
                     </div>
                     <div className="mb-3">
                         <label htmlFor="customerLastName" className="form-label">
@@ -87,11 +89,12 @@ export default function CustomerForm({ setRefresh, history }) {
                         <input
                             type="text"
                             id="customerLastName"
-                            className="form-control"
-                            required
-                            value={lastname}
-                            onChange={(e) => setLastname(e.target.value)}
+                            className={!errors.lastname ? 'form-control' : 'form-control is-invalid'}
+                            name="lastname"
+                            value={formValues.lastname}
+                            onChange={handleInputChange}
                         />
+                        {errors.lastname && <InvalidFeedback message={errors.lastname} />}
                     </div>
                     <div className="mb-3">
                         <label htmlFor="customerPhone" className="form-label">
@@ -100,11 +103,12 @@ export default function CustomerForm({ setRefresh, history }) {
                         <input
                             type="text"
                             id="customerPhone"
-                            className="form-control"
-                            required
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            className={!errors.phone ? 'form-control' : 'form-control is-invalid'}
+                            name="phone"
+                            value={formValues.phone}
+                            onChange={handleInputChange}
                         />
+                        {errors.phone && <InvalidFeedback message={errors.phone} />}
                     </div>
                     <div className="mb-4">
                         <label htmlFor="customerAddress" className="form-label">
@@ -113,15 +117,21 @@ export default function CustomerForm({ setRefresh, history }) {
                         <input
                             type="text"
                             id="customerAddress"
-                            className="form-control"
-                            required
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
+                            className={!errors.address ? 'form-control' : 'form-control is-invalid'}
+                            name="address"
+                            value={formValues.address}
+                            onChange={handleInputChange}
                         />
+                        {errors.address && <InvalidFeedback message={errors.address} />}
                     </div>
-                    <button type="submit" className="btn btn-info">
-                        Guardar
-                    </button>
+                    <div className="d-flex justify-content-evenly">
+                        <button type="submit" className="btn btn-info" onClick={validate}>
+                            Guardar
+                        </button>
+                        <button className="btn btn-secondary" onClick={resetForm}>
+                            Limpiar
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

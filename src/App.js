@@ -19,17 +19,14 @@ const App = () => {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        const bearerToken = localStorage.getItem('bearer-token');
-        if (bearerToken) {
-            axios.defaults.headers.common['authorization'] = bearerToken;
-            axios.get('/api/v1/auth/profile')
-                .then(res => {
-                    setUser(res.data.data);
-                    setLogged(true);
-                }).catch(err => {
-                    localStorage.removeItem('bearer-token');
-                });
-        }
+        axios.get('/api/v1/auth/profile')
+            .then(res => {
+                setUser(res.data.data);
+                setLogged(true);
+            }).catch(err => {
+                localStorage.removeItem('bearer-token');
+                axios.defaults.headers.common.authorization = '';
+            });
     }, []);
 
     useEffect(() => {
@@ -51,10 +48,10 @@ const App = () => {
                     <Route path='/enunciado' component={StatementScreen} />
                     <Route path='/signin' component={LoginScreen} />
                     <Route path='/signup' component={RegisterScreen} />
-                    <Route exact path='/carteras/cliente/:id' component={PortfolioScreen} />
-                    <Route exact path='/carteras/form' component={PortfolioForm} />
-                    <Route exact path='/letras/cartera/:carteraId' component={LetterScreen} />
-                    <Route exact path='/resumen/cartera/:carteraId' component={SummaryScreen} />
+                    <Route path='/carteras/cliente/:id' component={PortfolioScreen} />
+                    <Route path='/carteras/form' component={PortfolioForm} />
+                    <Route path='/letras/cartera/:id' component={LetterScreen} />
+                    <Route path='/resumen/cartera/:id' component={SummaryScreen} />
                     {
                         !logged ? <Route path='/' component={HomeScreen} /> : <Route path='/' component={CustomerScreen} />
                     }

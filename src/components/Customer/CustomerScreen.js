@@ -8,12 +8,14 @@ export default function CustomerScreen() {
     const [refresh, setRefresh] = useState(false);
 
     return (
-        <div className="row">
-            <div className="col-md-4">
-                <CustomerForm setLoad={setRefresh} />
-            </div>
-            <div className="col-md-8">
-                <CustomerTable load={refresh} setLoad={setRefresh} />
+        <div className="container" style={{ marginTop: '4rem' }}>
+            <div className="row">
+                <div className="col-md-4">
+                    <CustomerForm setRefresh={setRefresh} />
+                </div>
+                <div className="col-md-8">
+                    <CustomerTable refresh={refresh} setRefresh={setRefresh} />
+                </div>
             </div>
         </div>
     )

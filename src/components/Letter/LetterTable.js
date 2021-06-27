@@ -1,29 +1,8 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import LetterRow from './LetterRow';
 
-export default function LetterTable({ refresh, setRefresh, portfolioId }) {
-
-    const [letters, setLetters] = useState([]);
-
-    useEffect(() => {
-        axios.get(`/api/v1/letters/portfolio/${portfolioId}`)
-            .then(res => {
-                setLetters(res.data.data);
-            }).catch(console.error);
-    }, [portfolioId]);
-
-    useEffect(() => {
-        if (refresh) {
-            axios.get(`/api/v1/letters/portfolio/${portfolioId}`)
-                .then(res => {
-                    setLetters(res.data.data);
-                    setRefresh(false);
-                }).catch(console.error);
-        }
-    }, [portfolioId, refresh, setRefresh]);
-
+export default function LetterTable({ letters }) {
     return (
         <table className="table table-striped">
             <thead>

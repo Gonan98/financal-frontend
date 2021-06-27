@@ -2,37 +2,41 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import SummaryItem from './SummaryItem';
+import SummaryTable from './SummaryTable';
+import SummaryInfo from './SummaryInfo';
 
 export default function SummaryScreen() {
 
-    const { carteraId } = useParams();
+    const { id } = useParams();
     const [portfolio, setPortfolio] = useState({});
     const [letters, setLetters] = useState([]);
 
     useEffect(() => {
-
-        axios.get(`/api/v1/portfolios/${carteraId}`)
+        axios.get(`/api/v1/portfolios/${id}`)
             .then(res => {
                 setPortfolio(res.data.data);
             })
             .catch(console.error);
 
-        axios.get(`/api/v1/letters/portfolio/${carteraId}`)
+        axios.get(`/api/v1/letters/portfolio/${id}`)
             .then(res => {
                 setLetters(res.data.data);
             })
             .catch(console.error);
+    }, [id]);
 
-    }, [carteraId]);
+    console.log(letters);
 
     const summaryOperation = (letter) => {
 
+        const dueDateParse = letter.due_date.split('T')[0].split('-');
+        const discountDateParse = portfolio.discount_date.split('T')[0].split('-');
+
         // Calculo de dias
-        const dueDateFormat = new Date(letter.due_date);
-        const discountDateFormat = new Date(portfolio.discount_date);
-        const diffTime = dueDateFormat - discountDateFormat;
-        const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const dueDateFormat = new Date(dueDateParse[0], dueDateParse[1] - 1, dueDateParse[2]);
+        const discountDateFormat = new Date(discountDateParse[0], discountDateParse[1] - 1, discountDateParse[2]);
+        const diffTime = dueDateFormat.getTime() - discountDateFormat.getTime();
+        const days = diffTime / (1000 * 3600 * 24);
 
         // Calculo de la tasa efectiva
         let effectiveRate = 0;
@@ -79,30 +83,14 @@ export default function SummaryScreen() {
 
     return (
         <div className="container">
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">N°</th>
-                        <th scope="col">Fecha de Giro</th>
-                        <th scope="col">Valor Nominal</th>
-                        <th scope="col">Fecha de Vencimiento</th>
-                        <th scope="col">Dias</th>
-                        <th scope="col">Retención</th>
-                        <th scope="col">TE %</th>
-                        <th scope="col">d %</th>
-                        <th scope="col">Descuento</th>
-                        <th scope="col">Valor Neto</th>
-                        <th scope="col">Valor Recibido</th>
-                        <th scope="col">Valor Entregado</th>
-                        <th scope="col">TCEA %</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        letters.map((letter, i) => <SummaryItem key={letter._id} index={i + 1} {...summaryOperation(letter)} />)
-                    }
-                </tbody>
-            </table>
+            <div className="card">
+                <h2 className="card-header">
+                    Resumen de la cartera
+                </h2>
+                <SummaryInfo portfolio={portfolio} />
+                <hr />
+                <SummaryTable summaryOperation={summaryOperation} letters={letters} />
+            </div>
         </div>
     )
 }

@@ -12,7 +12,7 @@ export default function LetterRow({
             <td>{index}</td>
             <td>{issue_date.split('T')[0]}</td>
             <td>{due_date.split('T')[0]}</td>
-            <td>{retention}</td>
+            <td>{retention === 0 ? '-' : retention}</td>
             <td>{amount}</td>
         </tr>
     )

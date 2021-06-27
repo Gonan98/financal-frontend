@@ -11,7 +11,7 @@ export default function Navbar() {
     const { user, logged, setLogged, setUser } = useContext(UserContext);
 
     const signOut = () => {
-        delete axios.defaults.headers.common['authorization'];
+        axios.defaults.headers.common.authorization = '';
         localStorage.removeItem('bearer-token');
         setLogged(false);
         setUser({});
