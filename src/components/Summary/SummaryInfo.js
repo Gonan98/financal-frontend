@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function SummaryInfo({ portfolio, totalInitalCosts, totalFinalCosts, totalReceived }) {
+export default function SummaryInfo({ portfolio, initialCost, finalCost, totalReceived, totalTCEA }) {
 
     const termText = {
         1: 'Diaria',
@@ -35,15 +35,18 @@ export default function SummaryInfo({ portfolio, totalInitalCosts, totalFinalCos
                 </div>
                 <div className="col-md-4">
                     <li className="card-text">
-                        <strong>Costes Inciales:</strong> {totalInitalCosts}
+                        <strong>Costes Inciales:</strong> {initialCost}
                     </li>
                     <li className="card-text">
-                        <strong>Costes Finales:</strong> {totalFinalCosts}
+                        <strong>Costes Finales:</strong> {finalCost}
                     </li>
                 </div>
                 <div className="col-md-4">
                     <li className="card-text">
-                        <strong>Total a recibir: {totalReceived}</strong>
+                        <strong>Total a recibir: {totalReceived.toFixed(2)}</strong>
+                    </li>
+                    <li className="card-text">
+                        <strong>TCEA de la cartera: {(totalTCEA * 100).toFixed(7)}%</strong>
                     </li>
                 </div>
             </div>
