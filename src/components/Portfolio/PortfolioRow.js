@@ -33,6 +33,11 @@ export default function PortfolioRow({
             <td>{termText[term]}</td>
             <td>{termText[capitalization]}</td>
             <td>
+                <Link className="btn btn-sm btn-secondary" to={`/cartera/${_id}/detalles`}>
+                    <i className="fas fa-arrow-right" />
+                </Link>
+            </td>
+            <td>
                 <Link className="btn btn-sm btn-info" to={`/letras/cartera/${_id}`}>
                     <i className="fas fa-plus" />
                 </Link>

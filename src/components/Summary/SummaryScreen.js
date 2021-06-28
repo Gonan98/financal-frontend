@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import SummaryTable from './SummaryTable';
@@ -10,6 +10,22 @@ export default function SummaryScreen() {
     const { id } = useParams();
     const [portfolio, setPortfolio] = useState({});
     const [letters, setLetters] = useState([]);
+    const [details, setDetails] = useState([]);
+    const [summaries, setSummaries] = useState([]);
+    const [totalFinalCosts, setTotalFinalCosts] = useState(0);
+    const [totalInitalCosts, setTotalInitalCosts] = useState(0);
+    const [totalReceived, setTotalReceived] = useState(0);
+    const [totalTCEA, setTotalTCEA] = useState(0);
+
+    useEffect(() => {
+        details.forEach(d => {
+            if (d.moment === 'INICIAL') {
+                setTotalInitalCosts(t => t + d.amount);
+            } else if (d.moment === 'FINAL') {
+                setTotalFinalCosts(t => t + d.amount);
+            }
+        })
+    }, [details]);
 
     useEffect(() => {
         axios.get(`/api/v1/portfolios/${id}`)
@@ -23,9 +39,13 @@ export default function SummaryScreen() {
                 setLetters(res.data.data);
             })
             .catch(console.error);
-    }, [id]);
 
-    console.log(letters);
+        axios.get(`/api/v1/details/portfolio/${id}`)
+            .then(res => {
+                setDetails(res.data.data);
+            })
+            .catch(console.error);
+    }, [id]);
 
     const summaryOperation = (letter) => {
 
@@ -57,27 +77,27 @@ export default function SummaryScreen() {
         let netValue = letter.amount - discountValue;
 
         //Calculo del valor recibido
-        let receivedValue = netValue - letter.retention;
+        let receivedValue = netValue - letter.retention - totalInitalCosts;
 
         //Calculo del valor entregado
-        let deliveredValue = letter.amount - letter.retention;
+        let deliveredValue = letter.amount - letter.retention + totalFinalCosts;
 
         //Calculo de la TCEA
-        let tcea = Math.pow(deliveredValue / receivedValue, portfolio.days / days);
+        let tcea = Math.pow(deliveredValue / receivedValue, portfolio.days / days) - 1;
 
         return {
             issueDate: letter.issue_date,
-            amount: letter.amount.toFixed(2),
+            amount: letter.amount,
             dueDate: letter.due_date,
             days,
-            retention: letter.retention.toFixed(2),
-            effectiveRate: (effectiveRate * 100).toFixed(7),
-            discountRate: (discountRate * 100).toFixed(7),
-            discountValue: discountValue.toFixed(2),
-            netValue: netValue.toFixed(2),
-            receivedValue: receivedValue.toFixed(2),
-            deliveredValue: deliveredValue.toFixed(2),
-            tcea: (tcea * 100).toFixed(7)
+            retention: letter.retention,
+            effectiveRate,
+            discountRate,
+            discountValue,
+            netValue,
+            receivedValue,
+            deliveredValue,
+            tcea
         }
     }
 
@@ -87,7 +107,13 @@ export default function SummaryScreen() {
                 <h2 className="card-header">
                     Resumen de la cartera
                 </h2>
-                <SummaryInfo portfolio={portfolio} />
+                <SummaryInfo
+                    portfolio={portfolio}
+                    totalInitalCosts={totalInitalCosts}
+                    totalFinalCosts={totalFinalCosts}
+                    totalReceived={totalReceived}
+                    totalTCEA={totalTCEA}
+                />
                 <hr />
                 <SummaryTable summaryOperation={summaryOperation} letters={letters} />
             </div>

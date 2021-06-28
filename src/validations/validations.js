@@ -117,10 +117,10 @@ export const createPortfolioValidation = (values) => {
     if (values.discountDate === '') {
         errors.discountDate = 'La fecha de descuento es obligatoria';
     } else {
-        const date = new Date(values.discountDate);
+        /*const date = new Date(values.discountDate);
         if (date <= Date.now()) {
             errors.discountDate = 'La fecha de descuento debe ser mañor a la fecha de hoy';
-        }
+        }*/
     }
 
     if (values.rate === '') {
@@ -172,4 +172,14 @@ export const createLetterValidation = (values, discountDate) => {
 
     return errors;
 
+}
+
+export const createDetailValidation = (values) => {
+    let errors = {}
+
+    if (values.amount <= 0) {
+        errors.amount = 'El monto debe ser mayor a cero'
+    }
+
+    return errors;
 }

@@ -12,6 +12,7 @@ import PortfolioForm from './components/Portfolio/PortfolioForm';
 import PortfolioScreen from './components/Portfolio/PortfolioScreen';
 import LetterScreen from './components/Letter/LetterScreen';
 import SummaryScreen from './components/Summary/SummaryScreen';
+import PortfolioDetailScreen from './components/Portfolio/PortfolioDetailScreen';
 
 const App = () => {
 
@@ -49,6 +50,7 @@ const App = () => {
                     <Route path='/signin' component={LoginScreen} />
                     <Route path='/signup' component={RegisterScreen} />
                     <Route path='/carteras/cliente/:id' component={PortfolioScreen} />
+                    <Route path='/cartera/:id/detalles' component={PortfolioDetailScreen} />
                     <Route path='/carteras/form' component={PortfolioForm} />
                     <Route path='/letras/cartera/:id' component={LetterScreen} />
                     <Route path='/resumen/cartera/:id' component={SummaryScreen} />

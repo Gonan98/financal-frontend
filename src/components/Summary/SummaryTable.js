@@ -2,7 +2,7 @@ import React from 'react'
 
 import SummaryItem from './SummaryItem';
 
-export default function SummaryTable({ letters, summaryOperation }) {
+export default function SummaryTable({ letters, summaryOperation, setTotalReceived }) {
     return (
         <table className="table table-striped">
             <thead>

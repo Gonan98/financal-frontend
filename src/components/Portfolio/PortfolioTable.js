@@ -15,6 +15,7 @@ export default function PortfolioTable({ portfolios }) {
                     <th scope="col">Tasa</th>
                     <th scope="col">Plazo</th>
                     <th scope="col">Capitalización</th>
+                    <th scope="col">Detalles</th>
                     <th scope="col">Letras</th>
                     <th scope="col">Resumen</th>
                 </tr>
