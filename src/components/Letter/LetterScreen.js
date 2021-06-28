@@ -42,13 +42,15 @@ export default function LetterScreen({ history }) {
     }
 
     return (
-        <div className="row">
-            <div className="col-md-4">
-                <LetterForm setRefresh={setRefresh} portfolio={portfolio} />
-            </div>
-            <div className="col-md-8">
-                <button className="btn btn-warning mb-3" onClick={back}>Volver</button>
-                <LetterTable letters={letters} />
+        <div className="container" style={{ marginTop: '4rem' }}>
+            <div className="row">
+                <div className="col-md-4">
+                    <LetterForm setRefresh={setRefresh} portfolio={portfolio} />
+                </div>
+                <div className="col-md-8">
+                    <button className="btn btn-warning mb-3" onClick={back}>Volver</button>
+                    <LetterTable letters={letters} />
+                </div>
             </div>
         </div>
     )

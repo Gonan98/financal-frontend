@@ -40,7 +40,10 @@ export default function LoginScreen({ history }) {
     };
 
     return (
-        <div className="card mx-auto" style={{ width: "20rem" }}>
+        <div className="card mx-auto" style={{ width: "20rem", marginTop: '10rem' }}>
+            <h3 className="card-header">
+                Login
+            </h3>
             <div className="card-body">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">

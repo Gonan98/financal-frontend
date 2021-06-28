@@ -78,7 +78,7 @@ export default function SummaryTable({ letters, daysPerYear, rate, discountDate,
             receivedTotal += receivedValue;
             deliveredTotal += deliveredValue;
         });
-        console.log(deliveredTotal, receivedTotal, daysPerYear, minDays);
+
         const tcea = Math.pow(deliveredTotal / receivedTotal, daysPerYear / minDays) - 1;
         setTotalTCEA(tcea);
 

@@ -41,6 +41,9 @@ export default function PortfolioDetailForm({ setRefresh, portfolioId }) {
 
     return (
         <div className="card mx-auto">
+            <h3 className="card-header">
+                Costes Gastos
+            </h3>
             <div className="card-body">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">

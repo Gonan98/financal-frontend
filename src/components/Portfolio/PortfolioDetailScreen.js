@@ -31,7 +31,7 @@ export default function PortfolioDetailScreen() {
     }, [id, refresh]);
 
     return (
-        <div className="container">
+        <div className="container" style={{ marginTop: '4rem' }}>
             <div className="row">
                 <div className="col-md-4">
                     <PortfolioDetailForm setRefresh={setRefresh} portfolioId={id} />

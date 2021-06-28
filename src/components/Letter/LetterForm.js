@@ -40,6 +40,9 @@ export default function LetterForm({ setRefresh, portfolio }) {
 
     return (
         <div className="card">
+            <h3 className="card-header">
+                Añadir Letra
+            </h3>
             <div className="card-body">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">

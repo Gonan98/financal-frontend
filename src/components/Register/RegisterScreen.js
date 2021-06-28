@@ -38,7 +38,10 @@ export default function RegisterScreen({ history }) {
     };
 
     return (
-        <div className="card mx-auto" style={{ width: "20rem" }}>
+        <div className="card mx-auto" style={{ width: "20rem", marginTop: '4rem' }}>
+            <h3 className="card-header">
+                Registrate
+            </h3>
             <div className="card-body">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
